@@ -1,0 +1,26 @@
+main .auth {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 4rem;
+}
+
+.auth form {
+    min-width: 80%;
+    max-width: 40rem;
+    padding: 2em;
+    display: flex;
+    flex-direction: column;
+}
+
+.auth .button {
+    font-size: 1rem;
+    margin: 2em 0 0 auto;
+}
+
+.auth input {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+}

@@ -1,0 +1,15 @@
+.project img {
+    object-fit: cover;
+    width: 100%;
+    max-height: 20em;
+}
+
+.project {
+    position: relative;
+}
+
+.project > h1 {
+    margin: 1em;
+    color: var(--color-inverted);
+    position: absolute;
+}
