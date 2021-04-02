@@ -2,6 +2,7 @@
     "name": "tavikohn/cs410-portfolio",
     "description": "Portfolio Site Project for CS 410",
     "require": {
-        "php": "^8.0.1"
+        "php": "^8.0.1",
+        "katzgrau/klogger": "1.2.1"
     }
 }

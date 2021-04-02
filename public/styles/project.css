@@ -6,9 +6,10 @@
 
 .project {
     position: relative;
+    margin-bottom: 4em;
 }
 
-.project > h1 {
+.project>h1 {
     margin: 1em;
     color: var(--color-inverted);
     position: absolute;

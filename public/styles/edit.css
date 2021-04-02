@@ -1,0 +1,32 @@
+main .edit {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 4rem;
+}
+
+fieldset {
+    border: none;
+    margin-bottom: 1rem;
+}
+
+.edit form {
+    min-width: 80%;
+    max-width: 80rem;
+    padding: 2em;
+    display: flex;
+    flex-direction: column;
+}
+
+.edit .button {
+    font-size: 1rem;
+    margin: 2em 0 0 auto;
+}
+
+.edit input,
+.edit textarea {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+}
