@@ -43,15 +43,15 @@ if (!$session->loggedIn()) {
         <section class="edit">
             <form action="/edit" method="post">
                 <h1>Edit Profile</h1>
-                <input type="hidden" , name="count" value="<?php echo (count($session->projects())) ?>">
+                <input type="hidden" , name="count" value="<?php echo (count($session->projects()) + 1) ?>">
                 <?php
                 $i = 1;
                 foreach ($session->projects() as $project) {
-                    echo EditProject::render($i++);
+                    echo EditProject::render($i++, $project["name"], $project["description"]);
                 }
                 echo EditProject::render($i);
                 ?>
-                <button type="submit" class="button">Log In</button>
+                <button type="submit" class="button">Update</button>
             </form>
         </section>
     </main>
