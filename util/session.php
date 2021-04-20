@@ -12,13 +12,13 @@ class Session
         if (session_status() === PHP_SESSION_NONE) {
             session_name("session");
             session_start();
-            if(!isset($_SESSION["login_errors"])) {
+            if (!isset($_SESSION["login_errors"])) {
                 $_SESSION["login_errors"] = [];
             }
-            if(!isset($_SESSION["login_errors"])) {
+            if (!isset($_SESSION["login_errors"])) {
                 $_SESSION["signup_errors"] = [];
             }
-            if(!isset($_SESSION["username"])) {
+            if (!isset($_SESSION["username"])) {
                 $_SESSION["username"] = NULL;
             }
         }
@@ -48,22 +48,22 @@ class Session
     public function signup(String $username, String $password, String $password_confirmation): bool
     {
         $_SESSION["signup_errors"] = [];
-        if(strlen($username) < 3){
+        if (strlen($username) < 3) {
             array_push($_SESSION["signup_errors"], "Username must be at least 3 characters long");
             return false;
         }
 
-        if(strlen($password) < 8){
+        if (strlen($password) < 8) {
             array_push($_SESSION["signup_errors"], "Password must be at least 8 characters long");
             return false;
         }
 
-        if(strcmp($password, $password_confirmation) !== 0){
+        if (strcmp($password, $password_confirmation) !== 0) {
             array_push($_SESSION["signup_errors"], "Passwords must match exactly");
             return false;
         }
         $dao = new DAO();
-        if($dao->userExists($username)) {
+        if ($dao->userExists($username)) {
             array_push($_SESSION["signup_errors"], "Username not available");
             return false;
         }
@@ -77,7 +77,8 @@ class Session
         return $_SESSION["username"];
     }
 
-    public function projects(): array {
+    public function projects(): array
+    {
         $dao = new DAO();
         return $dao->getProjects($this->username());
     }
@@ -96,6 +97,21 @@ class Session
     {
         if (isset($_SESSION["username"])) {
             return !is_null($_SESSION["username"]);
+        }
+        return false;
+    }
+
+    public function updateProjects(array $projects): bool
+    {
+        $dao = new DAO();
+        if ($this->loggedIn()) {
+            foreach ($projects as $project) {
+                if(count($project) != 2) {
+                    return false;
+                }
+            }
+            $dao->updateProjects($this->username(), $projects);
+            return true;
         }
         return false;
     }

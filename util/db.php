@@ -46,7 +46,7 @@ class DAO
         if ($statement->execute()) {
             return $statement->fetch()[0];
         } else {
-            echo("statement execute false");
+            echo ("statement execute false");
         }
         return true;
     }
@@ -65,6 +65,35 @@ class DAO
         $user_id = $add_user->fetch()["id"];
         $add_password->bindParam(":user_id", $user_id, PDO::PARAM_INT);
         $add_password->execute();
+        $this->pdo->commit();
+    }
+
+    public function updateProjects(String $username, array $projects): void
+    {
+        $get_user_id = $this->pdo->prepare("select id from users where username = :username");
+        $get_user_id->bindParam(":username", $username, PDO::PARAM_STR);
+        $get_user_id->execute();
+        $user_id = $get_user_id->fetch()["id"];
+        $delete_projects = $this->pdo->prepare("delete from projects where user_id = :user_id");
+        $image_uri = "https://source.unsplash.com/random?programming";
+        $delete_projects->bindParam(":user_id", $user_id, PDO::PARAM_INT);
+
+        echo("Begin Transaction<br>");
+        $this->pdo->beginTransaction();
+        $delete_projects->execute();
+        foreach ($projects as $project) {
+            $project_name = $project[0];
+            $project_desc = $project[1];
+            var_dump($project_name);
+            var_dump($project_desc);
+            $create_projects = $this->pdo->prepare("insert into projects (user_id, name, description, image_uri) values (:user_id, :project_name, :description, :image_uri)");
+            $create_projects->bindParam(":user_id", $user_id, PDO::PARAM_INT);
+            $create_projects->bindParam(":project_name", $project_name, PDO::PARAM_STR);
+            $create_projects->bindParam(":description", $project_desc, PDO::PARAM_STR);
+            $create_projects->bindParam(":image_uri", $image_uri, PDO::PARAM_STR);
+            $create_projects->execute();
+        }
+        echo("Commit Transaction<br>");
         $this->pdo->commit();
     }
 }

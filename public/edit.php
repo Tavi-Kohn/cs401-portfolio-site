@@ -5,12 +5,25 @@ require_once(__DIR__ . '/../util/session.php');
 
 $session = new Session();
 
-if($_SERVER["REQUEST_METHOD"] === "POST") {
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $count = intval($_POST["count"]);
+    $projects = [];
+    for ($i = 0; $i < $count; $i++) {
+        $name = $_POST["project_name_" . $i + 1];
+        $description = $_POST["project_description_" . $i + 1];
+        if ($name !== "" && $description !== "") {
+            array_push($projects, [$name, $description]);
+        }
+    }
+    if ($session->updateProjects($projects)) {
+        header("Location: /portfolio/" . $session->username());
+        exit();
+    }
     header("Location: /login");
     exit();
 }
 
-if(!$session->loggedIn()) {
+if (!$session->loggedIn()) {
     header("Location: /login");
     exit();
 }
@@ -30,12 +43,13 @@ if(!$session->loggedIn()) {
         <section class="edit">
             <form action="/edit" method="post">
                 <h1>Edit Profile</h1>
+                <input type="hidden" , name="count" value="<?php echo (count($session->projects())) ?>">
                 <?php
-                    $i = 1;
-                    foreach($session->projects() as $project) {
-                        echo EditProject::render($i++);
-                    }
-                    echo EditProject::render($i);
+                $i = 1;
+                foreach ($session->projects() as $project) {
+                    echo EditProject::render($i++);
+                }
+                echo EditProject::render($i);
                 ?>
                 <button type="submit" class="button">Log In</button>
             </form>
